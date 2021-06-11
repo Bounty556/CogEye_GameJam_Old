@@ -21,7 +21,7 @@ namespace Soul
 	must be either active or in the Scene Command Queue at any given time in
 	order for the engine to be running.
 	*/
-	class SceneManager
+	class SOULAPI SceneManager
 	{
 	public:
 		typedef UniquePointer<Scene> ScenePtr;

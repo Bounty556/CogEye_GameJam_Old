@@ -46,7 +46,7 @@ namespace Soul
 			return false;
 		}
 
-		window = PARTITION(sf::RenderWindow, sf::VideoMode(windowWidth, windowHeight), windowName);
+		window = PARTITION(sf::RenderWindow, sf::VideoMode(windowWidth, windowHeight), windowName, sf::Style::Close | sf::Style::Titlebar);
 		window->setVerticalSyncEnabled(false);
 		window->setFramerateLimit(0);
 

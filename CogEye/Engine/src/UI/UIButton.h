@@ -4,6 +4,7 @@
 #include <UI/UIComponent.h>
 
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 namespace Soul
 {
@@ -14,7 +15,7 @@ namespace Soul
 	class SOULAPI UIButton : public UIComponent
 	{
 	public:
-		UIButton(const char* buttonText, FontManager& fontManager, std::function<void()> activate);
+		UIButton(const char* buttonText, const sf::Font& font, std::function<void()> activate);
 
 		virtual void Update(f32 dt) override;
 
