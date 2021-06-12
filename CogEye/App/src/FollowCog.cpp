@@ -95,6 +95,13 @@ Cog* FollowCog::MakeCog()
 
 		Cog* newCog = PARTITION(Cog, m_Textures, (Cog::Direction)-direction, m_Size, m_Radius, newSpeed);
 		newCog->setPosition(getPosition());
+
+		for (u32 i = 0; i < m_Connections.Count(); ++i)
+		{
+			newCog->AddConnection(m_Connections[i]);
+			m_Connections[i]->AddConnection(newCog);
+		}
+
 		return newCog;
 	}
 	else
