@@ -3,6 +3,7 @@
 #include <Math/Constants.h>
 #include <Math/Vectors.h>
 #include <Rendering/Renderer.h>
+#include <Core/MessageBus.h>
 
 CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation affiliation) :
 	m_Sprite(*textures.RequestTexture("res/Sprites/CogRider.png")),
@@ -111,7 +112,12 @@ void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 		{
 			f32 distance = Soul::Math::Distance(getPosition(), allCogs[i]->getPosition());
 			if (distance > allCogs[i]->GetRadius() + 16)
+			{
+				if (m_Affiliation & Affiliation::Green)
+					Soul::MessageBus::QueueMessage("MeltCog", (void*)m_OldCog); // Destroy cog
+
 				m_OldCog = nullptr; // We disconnected, now we can reconnect
+			}
 		}
 	}
 }

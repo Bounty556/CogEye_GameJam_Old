@@ -4,6 +4,7 @@
 #include <Core/Scene.h>
 #include <Resources/TextureManager.h>
 #include <Structures/Vector.h>
+#include <Core/Listener.h>
 
 #include "../Cog.h"
 #include "../FollowCog.h"
@@ -24,4 +25,5 @@ private:
 	FollowCog m_FollowCog;
 	CogRider m_CogRider;
 	Soul::Vector<Cog*> m_Cogs;
+	Soul::Listener m_Listener;
 };

@@ -5,8 +5,9 @@
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
 	m_FollowCog(m_Textures, Cog::Size::Medium, 50),
-	m_CogRider(m_Textures, 50, 100, CogRider::Red),
-	m_Cogs()
+	m_CogRider(m_Textures, 50, 100, CogRider::Green),
+	m_Cogs(),
+	m_Listener()
 {
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 150, 0.1f);
 	Cog* cog2 = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 150, 0.1f);
@@ -14,6 +15,13 @@ TestLevelScene::TestLevelScene() :
 	cog2->setPosition(1000, 500);
 	m_Cogs.Push(cog);
 	m_Cogs.Push(cog2);
+
+	m_Listener.Subscribe("MeltCog",
+		[&](void* data)
+		{
+			m_Cogs.Remove((Cog*)data);
+			Soul::MemoryManager::FreeMemory((Cog*)data);
+		});
 }
 
 TestLevelScene::~TestLevelScene()

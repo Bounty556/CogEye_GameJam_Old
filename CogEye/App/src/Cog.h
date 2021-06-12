@@ -29,6 +29,8 @@ public:
 	Cog(const Cog&) = delete;
 	Cog(Cog&& other) noexcept;
 
+	~Cog();
+
 	Cog& operator=(const Cog&) = delete;
 	Cog& operator=(Cog&& other) noexcept;
 
@@ -36,6 +38,7 @@ public:
 	void Draw(sf::RenderStates states) const;
 
 	void AddConnection(Cog* connection);
+	void RemoveConnection(Cog* connection);
 
 	Direction GetDirection() const;
 	f32 GetRadius() const;

@@ -52,6 +52,12 @@ Cog::Cog(Cog&& other) noexcept :
 {
 }
 
+Cog::~Cog()
+{
+	for (u32 i = 0; i < m_Connections.Count(); ++i)
+		m_Connections[i]->RemoveConnection(this);
+}
+
 Cog& Cog::operator=(Cog&& other) noexcept
 {
 	m_Direction = other.m_Direction;
@@ -78,6 +84,11 @@ void Cog::Draw(sf::RenderStates states) const
 void Cog::AddConnection(Cog* connection)
 {
 	m_Connections.Push(connection);
+}
+
+void Cog::RemoveConnection(Cog* connection)
+{
+	m_Connections.Remove(connection);
 }
 
 Cog::Direction Cog::GetDirection() const
