@@ -1,5 +1,7 @@
 #include "Functions.h"
 
+#include <Math/Constants.h>
+
 // TODO: A lot of these functions can benefit from parallel programming and branchless programming
 
 namespace Soul
@@ -133,6 +135,78 @@ namespace Soul
 				return a;
 			else
 				return b;
+		}
+
+		f32 ToRadians(f32 deg)
+		{
+			return deg * TO_RAD;
+		}
+
+		f32 ToDegrees(f32 rad)
+		{
+			return rad * TO_DEG;
+		}
+
+		f64 Cos(f32 rad)
+		{
+			rad = FLOAT_MOD(rad, PI2);
+			i8 sign = 1;
+			if (rad > PI)
+			{
+				rad -= PI;
+				sign = -1;
+			}
+			f64 xx = rad * rad;
+
+			return sign * (1 - (xx * 0.5) + (xx * xx * 0.04166666666) - (xx * xx * xx * 0.00138888888) + (xx * xx * xx * xx * 0.00002480158) - (xx * xx * xx * xx * xx * 2.75573192e-7) + (xx * xx * xx * xx * xx * xx * 2.0876757e-9) - (xx * xx * xx * xx * xx * xx * xx * 1.1470746e-11));
+		}
+
+		f64 Sin(f32 rad)
+		{
+			return Cos(rad + HALF_PI);
+		}
+
+		f32 Acos(f32 x)
+		{
+			f32 negate = f32(x < 0.0f);
+			x = Abs(x);
+			f32 ret = -0.0187293f;
+			ret = ret * x;
+			ret = ret + 0.0742610f;
+			ret = ret * x;
+			ret = ret - 0.2121144f;
+			ret = ret * x;
+			ret = ret + 1.5707288f;
+			ret = ret * Sqrt(1.0f - x);
+			ret = ret - 2.0f * negate * ret;
+			return negate * PI + ret;
+		}
+
+		SOULAPI f32 Atan2(f32 y, f32 x)
+		{
+			f32 t0, t1, t3, t4;
+
+			t3 = Abs(x);
+			t1 = Abs(y);
+			t0 = Max(t3, t1);
+			t1 = Min(t3, t1);
+			t3 = 1.0f / t0;
+			t3 = t1 * t3;
+
+			t4 = t3 * t3;
+			t0 = -0.013480470f;
+			t0 = t0 * t4 + 0.057477314f;
+			t0 = t0 * t4 - 0.121239071f;
+			t0 = t0 * t4 + 0.195635925f;
+			t0 = t0 * t4 - 0.332994597f;
+			t0 = t0 * t4 + 0.999995630f;
+			t3 = t0 * t3;
+
+			t3 = (Abs(y) > Abs(x)) ? 1.570796327f - t3 : t3;
+			t3 = (x < 0) ? 3.141592654f - t3 : t3;
+			t3 = (y < 0) ? -t3 : t3;
+
+			return t3;
 		}
 	}
 }

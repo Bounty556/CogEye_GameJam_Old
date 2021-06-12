@@ -5,6 +5,7 @@
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
 	m_FollowCog(m_Textures, Cog::Size::Medium, 50),
+	m_CogRider(m_Textures, 50, 100, CogRider::Green),
 	m_Cogs()
 {
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 150, 0.1f);
@@ -28,6 +29,9 @@ void TestLevelScene::Update(f32 dt)
 	m_FollowCog.Update(dt);
 	m_FollowCog.CheckCollisions(m_Cogs);
 
+	m_CogRider.Update(dt);
+	m_CogRider.CheckCollisions(m_Cogs);
+
 	if (Soul::InputManager::GetControlState(-1, "Click").state == Soul::Controller::Pressed)
 	{
 		Cog* newCog = m_FollowCog.MakeCog();
@@ -41,4 +45,5 @@ void TestLevelScene::Draw(sf::RenderStates states) const
 	for (u32 i = 0; i < m_Cogs.Count(); i++)
 		m_Cogs[i]->Draw(states);
 	m_FollowCog.Draw(states);
+	m_CogRider.Draw(states);
 }

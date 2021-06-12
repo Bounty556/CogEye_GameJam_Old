@@ -7,6 +7,7 @@
 
 #include "../Cog.h"
 #include "../FollowCog.h"
+#include "../CogRider.h"
 
 class TestLevelScene : public Soul::Scene
 {
@@ -21,5 +22,6 @@ public:
 private:
 	Soul::TextureManager m_Textures;
 	FollowCog m_FollowCog;
+	CogRider m_CogRider;
 	Soul::Vector<Cog*> m_Cogs;
 };

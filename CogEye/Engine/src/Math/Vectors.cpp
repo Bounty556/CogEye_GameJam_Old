@@ -1,6 +1,9 @@
 #include "Vectors.h"
 
 #include <Math/Functions.h>
+#include <Math/Constants.h>
+
+#include <Core/Logger.h>
 
 namespace Soul
 {
@@ -28,6 +31,19 @@ namespace Soul
 		sf::Vector2f Normal(const sf::Vector2f& a)
 		{
 			return sf::Vector2f(-a.y, a.x);
+		}
+
+		sf::Vector2f AngleToVector(f32 degrees)
+		{
+			f32 rad = ToRadians(degrees);
+			return sf::Vector2f((f32)Math::Cos(rad), (f32)Math::Sin(rad));
+		}
+
+		f32 VectorToAngle(const sf::Vector2f& v)
+		{
+			f32 theta = ToDegrees(Atan2(-v.y, v.x));
+
+			return theta;
 		}
 	}
 }
