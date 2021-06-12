@@ -1,15 +1,17 @@
 #include "TestLevelScene.h"
 
-#include <IO/InputManager.h>	
+#include <IO/InputManager.h>
+#include <Core/MessageBus.h>
 
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
+	m_Fonts(),
 	m_FollowCog(m_Textures, Cog::Size::Medium),
 	m_CogRiders(),
 	m_Cogs(),
 	m_Blocks(),
 	m_Listener(),
-	m_CogQueue(5, 5, 5)
+	m_CogQueue(m_Fonts, m_Textures, 5, 5, 5)
 {
 	CogRider* cogRider = PARTITION(CogRider, m_Textures, 50, 100, CogRider::Green);
 	CogRider* cogRider2 = PARTITION(CogRider, m_Textures, 50, -200, CogRider::Yellow);
@@ -54,6 +56,7 @@ TestLevelScene::TestLevelScene() :
 
 			m_CogRiders.Remove(pair->riderB);
 			Soul::MemoryManager::FreeMemory(pair->riderB);
+			Soul::MemoryManager::FreeMemory(pair);
 		});
 }
 
@@ -92,7 +95,12 @@ void TestLevelScene::Update(f32 dt)
 	{
 		Cog* newCog = m_FollowCog.MakeCog();
 		if (newCog)
+		{
 			m_Cogs.Push(newCog);
+			Cog::Size* size = PARTITION(Cog::Size);
+			*size = m_FollowCog.GetSize();
+			Soul::MessageBus::QueueMessage("PlacedCog", size);
+		}
 	}
 }
 
@@ -105,4 +113,6 @@ void TestLevelScene::Draw(sf::RenderStates states) const
 	m_FollowCog.Draw(states);
 	for (u32 i = 0; i < m_CogRiders.Count(); i++)
 		m_CogRiders[i]->Draw(states);
+
+	m_CogQueue.Draw(states);
 }

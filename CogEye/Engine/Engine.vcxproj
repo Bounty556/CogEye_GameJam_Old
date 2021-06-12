@@ -208,6 +208,8 @@
     <ClInclude Include="src\UI\UIButton.h" />
     <ClInclude Include="src\UI\UIComponent.h" />
     <ClInclude Include="src\UI\UIContainer.h" />
+    <ClInclude Include="src\UI\UILabel.h" />
+    <ClInclude Include="src\UI\UISprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Listener.cpp" />
@@ -238,6 +240,8 @@
     <ClCompile Include="src\UI\UIButton.cpp" />
     <ClCompile Include="src\UI\UIComponent.cpp" />
     <ClCompile Include="src\UI\UIContainer.cpp" />
+    <ClCompile Include="src\UI\UILabel.cpp" />
+    <ClCompile Include="src\UI\UISprite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

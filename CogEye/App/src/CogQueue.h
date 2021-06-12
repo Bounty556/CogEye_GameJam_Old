@@ -1,7 +1,12 @@
 #pragma once
 
 #include <Defines.h>
+#include <Memory/UniquePointer.h>
 #include <UI/UIContainer.h>
+#include <UI/UILabel.h>
+#include <Resources/FontManager.h>
+#include <Resources/TextureManager.h>
+#include <Core/Listener.h>
 
 #include <SFML/Graphics.hpp>
 
@@ -10,7 +15,7 @@
 class CogQueue
 {
 public:
-	CogQueue(u32 smallCogs, u32 medCogs, u32 largeCogs);
+	CogQueue(Soul::FontManager& font, Soul::TextureManager& textures, u32 smallCogs, u32 medCogs, u32 largeCogs);
 
 	CogQueue(const CogQueue&) = delete;
 	CogQueue(CogQueue&& other) noexcept;
@@ -26,4 +31,6 @@ public:
 private:
 	u32 m_CogsLeft[3];
 	Soul::UIContainer m_UI;
+	Soul::UILabel* m_CogText[3];
+	Soul::Listener m_Listener;
 };

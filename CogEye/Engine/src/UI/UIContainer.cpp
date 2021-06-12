@@ -18,7 +18,7 @@ namespace Soul
 
 	UIContainer::~UIContainer()
 	{
-		for (unsigned int i = 0; i < m_Components.Count(); ++i)
+		for (u32 i = 0; i < m_Components.Count(); ++i)
 			MemoryManager::FreeMemory(m_Components[i]);
 	}
 

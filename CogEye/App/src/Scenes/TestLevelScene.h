@@ -24,6 +24,7 @@ public:
 
 private:
 	Soul::TextureManager m_Textures;
+	Soul::FontManager m_Fonts;
 	FollowCog m_FollowCog;
 	Soul::Vector<CogRider*> m_CogRiders;
 	Soul::Vector<Cog*> m_Cogs;
