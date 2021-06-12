@@ -104,6 +104,9 @@ void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 				m_OldCog = m_AttachedCog;
 				m_AttachedCog = allCogs[i];
 				m_AttachedAngle = Soul::Math::VectorToAngle(getPosition() - allCogs[i]->getPosition());
+
+				MeltOldCog();
+
 				break;
 			}
 		}
@@ -111,12 +114,7 @@ void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 		{
 			f32 distance = Soul::Math::Distance(getPosition(), allCogs[i]->getPosition());
 			if (distance > allCogs[i]->GetRadius() + 16)
-			{
-				if (m_Affiliation & Affiliation::Green)
-					Soul::MessageBus::QueueMessage("MeltCog", (void*)m_OldCog); // Destroy cog
-
 				m_OldCog = nullptr; // We disconnected, now we can reconnect
-			}
 		}
 	}
 }
@@ -138,10 +136,21 @@ void CogRider::CheckCollisions(Soul::Vector<Block*>& allBlocks)
 				m_InBlock = allBlocks[i];
 				m_OldCog = m_AttachedCog;
 				m_AttachedCog = nullptr;
+
+				MeltOldCog();
 			}
 			return;
 		}
 	}
 
 	m_InBlock = nullptr;
+}
+
+void CogRider::MeltOldCog()
+{
+	if (m_Affiliation & Affiliation::Green && m_OldCog)
+	{
+		Soul::MessageBus::QueueMessage("MeltCog", (void*)m_OldCog); // Destroy cog
+		m_OldCog = nullptr;
+	}
 }

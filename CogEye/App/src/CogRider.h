@@ -37,6 +37,9 @@ public:
 	void CheckCollisions(Soul::Vector<Block*>& allBlocks);
 
 private:
+	void MeltOldCog();
+
+private:
 	sf::Sprite m_Sprite;
 	Affiliation m_Affiliation;
 	Cog* m_AttachedCog;
