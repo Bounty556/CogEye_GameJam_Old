@@ -147,6 +147,7 @@ namespace Soul
 			return rad * TO_DEG;
 		}
 
+		// TODO: Make more accurate
 		f64 Cos(f32 rad)
 		{
 			rad = FLOAT_MOD(rad, PI2);
