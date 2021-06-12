@@ -10,7 +10,9 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 	m_Affiliation(affiliation),
 	m_AttachedCog(nullptr),
 	m_AttachedAngle(0.0f),
-	m_OldCog(nullptr)
+	m_OldCog(nullptr),
+	m_InBlock(nullptr),
+	m_Listener()
 {
 	m_Sprite.setOrigin(64, 32);
 	setScale(0.25f, 0.25f);
@@ -38,6 +40,17 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 			m_Sprite.setColor(sf::Color(255, 255, 0));
 		} break;
 	}
+
+	// Make sure we detach from a cog if it melts
+	m_Listener.Subscribe("MeltCog",
+		[&](void* data)
+		{
+			if (m_AttachedCog == (Cog*)data)
+			{
+				m_AttachedCog = nullptr;
+				m_OldCog = nullptr;
+			}
+		});
 }
 
 CogRider::CogRider(CogRider&& other) noexcept :
@@ -45,7 +58,9 @@ CogRider::CogRider(CogRider&& other) noexcept :
 	m_Affiliation(other.m_Affiliation),
 	m_AttachedCog(other.m_AttachedCog),
 	m_AttachedAngle(other.m_AttachedAngle),
-	m_OldCog(other.m_OldCog)
+	m_OldCog(other.m_OldCog),
+	m_InBlock(other.m_InBlock),
+	m_Listener(std::move(other.m_Listener))
 {
 }
 
@@ -56,6 +71,8 @@ CogRider& CogRider::operator=(CogRider&& other) noexcept
 	m_AttachedCog = other.m_AttachedCog;
 	m_AttachedAngle = other.m_AttachedAngle;
 	m_OldCog = other.m_OldCog;
+	m_InBlock = other.m_InBlock;
+	m_Listener = std::move(other.m_Listener);
 
 	return *this;
 }

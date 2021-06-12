@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Defines.h>
+#include <Core/Listener.h>
 #include <Resources/TextureManager.h>
 #include <Structures/Vector.h>
 
@@ -46,4 +47,5 @@ private:
 	f32 m_AttachedAngle;
 	Cog* m_OldCog;
 	Block* m_InBlock;
+	Soul::Listener m_Listener;
 };

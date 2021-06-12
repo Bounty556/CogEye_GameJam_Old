@@ -5,11 +5,16 @@
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
 	m_FollowCog(m_Textures, Cog::Size::Medium, 50),
-	m_CogRider(m_Textures, 50, 100, CogRider::Green),
+	m_CogRiders(),
 	m_Cogs(),
 	m_Blocks(),
 	m_Listener()
 {
+	CogRider* cogRider = PARTITION(CogRider, m_Textures, 50, 100, CogRider::Green);
+	CogRider* cogRider2 = PARTITION(CogRider, m_Textures, 50, -200, CogRider::None);
+	m_CogRiders.Push(cogRider);
+	m_CogRiders.Push(cogRider2);
+
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 125, 0.1f);
 	Cog* cog2 = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 125, 0.1f);
 	cog->setPosition(150, 200);
@@ -30,6 +35,8 @@ TestLevelScene::TestLevelScene() :
 
 TestLevelScene::~TestLevelScene()
 {
+	for (u32 i = 0; i < m_CogRiders.Count(); i++)
+		Soul::MemoryManager::FreeMemory(m_CogRiders[i]);
 	for (u32 i = 0; i < m_Cogs.Count(); i++)
 		Soul::MemoryManager::FreeMemory(m_Cogs[i]);
 	for (u32 i = 0; i < m_Blocks.Count(); i++)
@@ -43,9 +50,12 @@ void TestLevelScene::Update(f32 dt)
 	m_FollowCog.Update(dt);
 	m_FollowCog.CheckCollisions(m_Cogs);
 
-	m_CogRider.Update(dt);
-	m_CogRider.CheckCollisions(m_Cogs);
-	m_CogRider.CheckCollisions(m_Blocks);
+	for (u32 i = 0; i < m_CogRiders.Count(); i++)
+	{
+		m_CogRiders[i]->Update(dt);
+		m_CogRiders[i]->CheckCollisions(m_Cogs);
+		m_CogRiders[i]->CheckCollisions(m_Blocks);
+	}
 
 	if (Soul::InputManager::GetControlState(-1, "Click").state == Soul::Controller::Pressed)
 	{
@@ -62,5 +72,6 @@ void TestLevelScene::Draw(sf::RenderStates states) const
 	for (u32 i = 0; i < m_Cogs.Count(); i++)
 		m_Cogs[i]->Draw(states);
 	m_FollowCog.Draw(states);
-	m_CogRider.Draw(states);
+	for (u32 i = 0; i < m_CogRiders.Count(); i++)
+		m_CogRiders[i]->Draw(states);
 }

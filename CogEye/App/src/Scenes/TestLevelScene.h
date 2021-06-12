@@ -24,7 +24,7 @@ public:
 private:
 	Soul::TextureManager m_Textures;
 	FollowCog m_FollowCog;
-	CogRider m_CogRider;
+	Soul::Vector<CogRider*> m_CogRiders;
 	Soul::Vector<Cog*> m_Cogs;
 	Soul::Vector<Block*> m_Blocks;
 	Soul::Listener m_Listener;
