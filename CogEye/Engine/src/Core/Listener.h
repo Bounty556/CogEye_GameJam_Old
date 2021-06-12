@@ -11,6 +11,13 @@ namespace Soul
 	{
 	public:
 		Listener();
+
+		Listener(const Listener&) = delete;
+		Listener(Listener&& other) noexcept;
+
+		Listener& operator=(const Listener&) = delete;
+		Listener& operator=(Listener&& other) noexcept;
+
 		~Listener();
 
 		void Subscribe(const char* message, std::function<void(void*)> callback);
