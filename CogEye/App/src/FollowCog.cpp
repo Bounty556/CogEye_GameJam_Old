@@ -5,43 +5,14 @@
 #include <Math/Functions.h>
 #include <Math/Vectors.h>
 
-FollowCog::FollowCog(Soul::TextureManager& textures, Cog::Size size, f32 radius) :
+FollowCog::FollowCog(Soul::TextureManager& textures, Cog::Size size) :
 	m_Size(size),
 	m_Connections(),
 	m_Sprite(),
-	m_Radius(radius),
-	m_Textures(textures),
-	m_LastGoodPos(0.0f, 0.0f)
+	m_Radius(0.0f),
+	m_Textures(textures)
 {
-	sf::Vector2u spriteSize;
-
-	switch (size)
-	{
-	case Cog::Size::Small:
-	{
-		m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/SmallCog1.png"));
-		spriteSize = textures.RequestTexture("res/Sprites/SmallCog1.png")->getSize();
-	} break;
-
-	case Cog::Size::Medium:
-	{
-		m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/MediumCog1.png"));
-		spriteSize = textures.RequestTexture("res/Sprites/MediumCog1.png")->getSize();
-	} break;
-
-	case Cog::Size::Large:
-	{
-		m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/LargeCog1.png"));
-		spriteSize = textures.RequestTexture("res/Sprites/LargeCog1.png")->getSize();
-	} break;
-	}
-
-	m_Sprite.setOrigin(spriteSize.x / 2.0f, spriteSize.y / 2.0f);
-
-	f32 diameter = radius * 2;
-	f32 newScale = diameter / (f32)spriteSize.x;
-	m_Sprite.setScale(newScale, newScale);
-	m_Sprite.setColor(sf::Color(255, 255, 255, 120));
+	ResetSprite();
 }
 
 void FollowCog::Update(f32 dt)
@@ -53,6 +24,12 @@ void FollowCog::Draw(sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	Soul::Renderer::Render(m_Sprite, states);
+}
+
+void FollowCog::NextSize()
+{
+	m_Size = (Cog::Size)((m_Size + 1) % 3);
+	ResetSprite();
 }
 
 void FollowCog::CheckCollisions(Soul::Vector<Cog*>& allCogs)
@@ -106,4 +83,47 @@ Cog* FollowCog::MakeCog()
 	}
 	else
 		return nullptr;
+}
+
+Cog::Size FollowCog::GetSize() const
+{
+	return m_Size;
+}
+
+void FollowCog::ResetSprite()
+{
+	sf::Vector2u spriteSize;
+	m_Sprite.setScale(1.0f, 1.0f);
+
+	switch (m_Size)
+	{
+		case Cog::Size::Small:
+		{
+			m_Sprite.setTexture(*m_Textures.RequestTexture("res/Sprites/SmallCog1.png"));
+			spriteSize = m_Textures.RequestTexture("res/Sprites/SmallCog1.png")->getSize();
+			m_Radius = 25.0f;
+		} break;
+
+		case Cog::Size::Medium:
+		{
+			m_Sprite.setTexture(*m_Textures.RequestTexture("res/Sprites/MediumCog1.png"));
+			spriteSize = m_Textures.RequestTexture("res/Sprites/MediumCog1.png")->getSize();
+			m_Radius = 50.0f;
+		} break;
+
+		case Cog::Size::Large:
+		{
+			m_Sprite.setTexture(*m_Textures.RequestTexture("res/Sprites/LargeCog1.png"));
+			spriteSize = m_Textures.RequestTexture("res/Sprites/LargeCog1.png")->getSize();
+			m_Radius = 100.0f;
+		} break;
+	}
+
+	m_Sprite.setTextureRect(sf::IntRect(0, 0, spriteSize.x, spriteSize.y));
+	m_Sprite.setOrigin(spriteSize.x / 2.0f, spriteSize.y / 2.0f);
+
+	f32 diameter = m_Radius * 2;
+	f32 newScale = diameter / (f32)spriteSize.x;
+	m_Sprite.setScale(newScale, newScale);
+	m_Sprite.setColor(sf::Color(255, 255, 255, 120));
 }

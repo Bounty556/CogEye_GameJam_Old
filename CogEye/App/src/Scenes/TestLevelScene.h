@@ -10,6 +10,7 @@
 #include "../FollowCog.h"
 #include "../CogRider.h"
 #include "../Block.h"
+#include "../CogQueue.h"
 
 class TestLevelScene : public Soul::Scene
 {
@@ -28,4 +29,5 @@ private:
 	Soul::Vector<Cog*> m_Cogs;
 	Soul::Vector<Block*> m_Blocks;
 	Soul::Listener m_Listener;
+	CogQueue m_CogQueue;
 };

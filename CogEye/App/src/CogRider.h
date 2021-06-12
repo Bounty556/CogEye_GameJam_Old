@@ -10,6 +10,8 @@
 #include "Cog.h"
 #include "Block.h"
 
+class RiderHat;
+
 class CogRider : public sf::Transformable
 {
 public:
@@ -22,11 +24,22 @@ public:
 		Yellow = 8
 	};
 
+	/*
+	For sending collision information through the MessageBus
+	*/
+	struct RiderPair
+	{
+		CogRider* riderA;
+		CogRider* riderB;
+	};
+
 public:
 	CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation affiliation);
 
 	CogRider(const CogRider&) = delete;
 	CogRider(CogRider&& other) noexcept;
+
+	~CogRider();
 
 	CogRider& operator=(const CogRider&) = delete;
 	CogRider& operator=(CogRider&& other) noexcept;
@@ -36,8 +49,15 @@ public:
 
 	void CheckCollisions(Soul::Vector<Cog*>& allCogs);
 	void CheckCollisions(Soul::Vector<Block*>& allBlocks);
+	void CheckCollisions(Soul::Vector<CogRider*>& allCogRiders);
 
+	void AddHat(Soul::TextureManager& textures, Affiliation affiliation);
+
+	Affiliation GetAffiliation() const;
+	
 private:
+	bool IsCollidingWithRider() const;
+	void SetCollidingWithRider();
 	void MeltOldCog();
 
 private:
@@ -48,4 +68,6 @@ private:
 	Cog* m_OldCog;
 	Block* m_InBlock;
 	Soul::Listener m_Listener;
+	Soul::Vector<RiderHat*> m_Hats;
+	bool m_IsCollidingWithRider;
 };

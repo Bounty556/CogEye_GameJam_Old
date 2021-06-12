@@ -16,7 +16,6 @@ Block::Block(Soul::TextureManager& textures, BlockType blockType, f32 x, f32 y, 
 
 		case BlockType::Lava:
 		{
-			// TODO:
 			m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/Lava.png", true));
 		} break;
 	}

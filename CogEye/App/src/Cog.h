@@ -18,7 +18,7 @@ public:
 
 	enum Size
 	{
-		Small,
+		Small = 0,
 		Medium,
 		Large
 	};

@@ -5,6 +5,8 @@
 #include <Rendering/Renderer.h>
 #include <Core/MessageBus.h>
 
+#include "RiderHat.h"
+
 CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation affiliation) :
 	m_Sprite(*textures.RequestTexture("res/Sprites/CogRider.png")),
 	m_Affiliation(affiliation),
@@ -12,7 +14,9 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 	m_AttachedAngle(0.0f),
 	m_OldCog(nullptr),
 	m_InBlock(nullptr),
-	m_Listener()
+	m_Listener(),
+	m_Hats(),
+	m_IsCollidingWithRider(false)
 {
 	m_Sprite.setOrigin(64, 32);
 	setScale(0.25f, 0.25f);
@@ -60,8 +64,16 @@ CogRider::CogRider(CogRider&& other) noexcept :
 	m_AttachedAngle(other.m_AttachedAngle),
 	m_OldCog(other.m_OldCog),
 	m_InBlock(other.m_InBlock),
-	m_Listener(std::move(other.m_Listener))
+	m_Listener(std::move(other.m_Listener)),
+	m_Hats(std::move(other.m_Hats)),
+	m_IsCollidingWithRider(other.m_IsCollidingWithRider)
 {
+}
+
+CogRider::~CogRider()
+{
+	for (u32 i = 0; i < m_Hats.Count(); i++)
+		Soul::MemoryManager::FreeMemory(m_Hats[i]);
 }
 
 CogRider& CogRider::operator=(CogRider&& other) noexcept
@@ -73,12 +85,16 @@ CogRider& CogRider::operator=(CogRider&& other) noexcept
 	m_OldCog = other.m_OldCog;
 	m_InBlock = other.m_InBlock;
 	m_Listener = std::move(other.m_Listener);
+	m_Hats = std::move(other.m_Hats);
+	m_IsCollidingWithRider = other.m_IsCollidingWithRider;
 
 	return *this;
 }
 
 void CogRider::Update(f32 dt)
 {
+	m_IsCollidingWithRider = false;
+
 	if (m_AttachedCog)
 	{
 		// Ride along cog circumference
@@ -106,6 +122,8 @@ void CogRider::Draw(sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	Soul::Renderer::Render(m_Sprite, states);
+	for (u32 i = 0; i < m_Hats.Count(); ++i)
+		m_Hats[i]->Draw(states);
 }
 
 void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
@@ -147,7 +165,9 @@ void CogRider::CheckCollisions(Soul::Vector<Block*>& allBlocks)
 			getPosition().y - blockPos.y >= 0 &&
 			getPosition().y - blockPos.y <= (f32)blockSize.y)
 		{
-			if (m_InBlock == nullptr)
+			if (allBlocks[i]->GetBlockType() == Block::Lava)
+				Soul::MessageBus::QueueMessage("MeltRider", this);
+			else if (m_InBlock == nullptr)
 			{
 				// Fall off cog
 				m_InBlock = allBlocks[i];
@@ -161,6 +181,70 @@ void CogRider::CheckCollisions(Soul::Vector<Block*>& allBlocks)
 	}
 
 	m_InBlock = nullptr;
+}
+
+void CogRider::CheckCollisions(Soul::Vector<CogRider*>& allCogRiders)
+{
+	bool foundUs = false;
+	for (u32 i = 0; i < allCogRiders.Count(); ++i)
+	{
+		if (allCogRiders[i] == this)
+		{
+			foundUs = true;
+			continue;
+		}
+
+		if (foundUs)
+		{
+			if (Soul::Math::Distance(getPosition(), allCogRiders[i]->getPosition()) < 32 &&
+				!allCogRiders[i]->IsCollidingWithRider())
+			{
+				RiderPair* pair = PARTITION(RiderPair);
+				pair->riderA = this;
+				pair->riderB = allCogRiders[i];
+				Soul::MessageBus::QueueMessage("RiderCollision", pair);
+				m_IsCollidingWithRider = true;
+				pair->riderB->SetCollidingWithRider();
+			}
+		}
+	}
+}
+
+void CogRider::AddHat(Soul::TextureManager& textures, Affiliation affiliation)
+{
+	u32 diffAffil = (m_Affiliation ^ affiliation) & ~m_Affiliation;
+	u32 affilMask = 1;
+	
+	while (diffAffil && affilMask < 16)
+	{
+		u32 masked = diffAffil & affilMask;
+
+		if (masked)
+		{
+			// Add any powers we're missing
+			m_Affiliation = (Affiliation)(masked + m_Affiliation);
+			RiderHat* hat = PARTITION(RiderHat, textures, (Affiliation)masked);
+			hat->setPosition(0.0f, 54.0f + m_Hats.Count() * 48.0f);
+			m_Hats.Push(hat);
+		}
+
+		affilMask = affilMask << 1;
+	}
+}
+
+CogRider::Affiliation CogRider::GetAffiliation() const
+{
+	return m_Affiliation;
+}
+
+bool CogRider::IsCollidingWithRider() const
+{
+	return m_IsCollidingWithRider;
+}
+
+void CogRider::SetCollidingWithRider()
+{
+	m_IsCollidingWithRider = true;
 }
 
 void CogRider::MeltOldCog()

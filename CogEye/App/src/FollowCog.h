@@ -11,13 +11,19 @@
 class FollowCog : public sf::Transformable
 {
 public:
-	FollowCog(Soul::TextureManager& textures, Cog::Size size, f32 radius);
+	FollowCog(Soul::TextureManager& textures, Cog::Size size);
 
 	void Update(f32 dt);
 	void Draw(sf::RenderStates states) const;
 
+	void NextSize();
 	void CheckCollisions(Soul::Vector<Cog*>& allCogs);
 	Cog* MakeCog();
+
+	Cog::Size GetSize() const;
+
+private:
+	void ResetSprite();
 
 private:
 	Cog::Size m_Size;
@@ -25,5 +31,4 @@ private:
 	sf::Sprite m_Sprite;
 	f32 m_Radius;
 	Soul::TextureManager& m_Textures;
-	sf::Vector2f m_LastGoodPos;
 };
