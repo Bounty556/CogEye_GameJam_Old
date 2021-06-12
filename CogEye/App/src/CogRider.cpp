@@ -21,6 +21,7 @@ CogRider::CogRider(CogRider&& other) noexcept :
 	m_Sprite(std::move(other.m_Sprite)),
 	m_Affiliation(other.m_Affiliation),
 	m_AttachedCog(other.m_AttachedCog),
+	m_AttachedAngle(other.m_AttachedAngle),
 	m_OldCog(other.m_OldCog)
 {
 }
@@ -30,6 +31,7 @@ CogRider& CogRider::operator=(CogRider&& other) noexcept
 	m_Sprite = std::move(other.m_Sprite);
 	m_Affiliation = other.m_Affiliation;
 	m_AttachedCog = other.m_AttachedCog;
+	m_AttachedAngle = other.m_AttachedAngle;
 	m_OldCog = other.m_OldCog;
 
 	return *this;
