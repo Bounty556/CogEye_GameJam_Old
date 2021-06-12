@@ -25,8 +25,9 @@ namespace Soul
 	Listener& Listener::operator=(Listener&& other) noexcept
 	{
 		m_Callbacks = std::move(other.m_Callbacks);
-	}
 
+		return *this;
+	}
 
 	void Listener::Subscribe(const char* message, std::function<void(void*)> callback)
 	{
