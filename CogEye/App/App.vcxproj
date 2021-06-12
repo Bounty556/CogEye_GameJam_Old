@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Cog.cpp" />
     <ClCompile Include="src\CogRider.cpp" />
     <ClCompile Include="src\FollowCog.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="src\Scenes\TestLevelScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Block.h" />
     <ClInclude Include="src\Cog.h" />
     <ClInclude Include="src\CogRider.h" />
     <ClInclude Include="src\FollowCog.h" />

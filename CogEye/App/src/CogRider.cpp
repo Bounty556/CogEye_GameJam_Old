@@ -16,7 +16,6 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 	setScale(0.25f, 0.25f);
 	setPosition(x, y);
 
-	// TODO: set color based on affiliation
 	switch (affiliation)
 	{
 		case Red:
@@ -120,4 +119,29 @@ void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 			}
 		}
 	}
+}
+
+void CogRider::CheckCollisions(Soul::Vector<Block*>& allBlocks)
+{
+	for (u32 i = 0; i < allBlocks.Count(); ++i)
+	{
+		sf::Vector2f blockPos = allBlocks[i]->getPosition();
+		sf::Vector2i blockSize = allBlocks[i]->GetSize();
+		if (getPosition().x - blockPos.x >= 0 &&
+			getPosition().x - blockPos.x <= (f32)blockSize.x &&
+			getPosition().y - blockPos.y >= 0 &&
+			getPosition().y - blockPos.y <= (f32)blockSize.y)
+		{
+			if (m_InBlock == nullptr)
+			{
+				// Fall off cog
+				m_InBlock = allBlocks[i];
+				m_OldCog = m_AttachedCog;
+				m_AttachedCog = nullptr;
+			}
+			return;
+		}
+	}
+
+	m_InBlock = nullptr;
 }

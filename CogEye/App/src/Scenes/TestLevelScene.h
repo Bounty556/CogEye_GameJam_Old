@@ -9,6 +9,7 @@
 #include "../Cog.h"
 #include "../FollowCog.h"
 #include "../CogRider.h"
+#include "../Block.h"
 
 class TestLevelScene : public Soul::Scene
 {
@@ -25,5 +26,6 @@ private:
 	FollowCog m_FollowCog;
 	CogRider m_CogRider;
 	Soul::Vector<Cog*> m_Cogs;
+	Soul::Vector<Block*> m_Blocks;
 	Soul::Listener m_Listener;
 };

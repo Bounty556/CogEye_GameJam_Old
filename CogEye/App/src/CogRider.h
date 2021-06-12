@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Cog.h"
+#include "Block.h"
 
 class CogRider : public sf::Transformable
 {
@@ -33,6 +34,7 @@ public:
 	void Draw(sf::RenderStates states) const;
 
 	void CheckCollisions(Soul::Vector<Cog*>& allCogs);
+	void CheckCollisions(Soul::Vector<Block*>& allBlocks);
 
 private:
 	sf::Sprite m_Sprite;
@@ -40,4 +42,5 @@ private:
 	Cog* m_AttachedCog;
 	f32 m_AttachedAngle;
 	Cog* m_OldCog;
+	Block* m_InBlock;
 };
