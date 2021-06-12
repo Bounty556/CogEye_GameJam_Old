@@ -11,16 +11,15 @@ Block::Block(Soul::TextureManager& textures, BlockType blockType, f32 x, f32 y, 
 	{
 		case BlockType::Wood:
 		{
-			m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/Wood.png"));
+			m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/Wood.png", true));
 		} break;
 
 		case BlockType::Lava:
 		{
 			// TODO:
-			m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/Wood.png"));
+			m_Sprite.setTexture(*textures.RequestTexture("res/Sprites/Lava.png", true));
 		} break;
 	}
-
 
 	m_Sprite.setTextureRect(sf::IntRect(0, 0, width, height));
 	setPosition(x, y);
