@@ -19,11 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Cog.cpp" />
+    <ClCompile Include="src\FollowCog.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Scenes\MainMenuScene.cpp" />
+    <ClCompile Include="src\Scenes\TestLevelScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Cog.h" />
+    <ClInclude Include="src\FollowCog.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
+    <ClInclude Include="src\Scenes\TestLevelScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

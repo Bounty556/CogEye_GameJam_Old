@@ -3,14 +3,15 @@
 #include <Core/String.h>
 
 #include "Scenes/MainMenuScene.h"
+#include "Scenes/TestLevelScene.h"
 
 int main()
 {
 	if (Soul::InitializeEngine(1280, 720, "Pong!"))
 	{
-		MainMenuScene* mainScene = PARTITION(MainMenuScene);
+		TestLevelScene* testScene = PARTITION(TestLevelScene);
 
-		Soul::SetScene(mainScene);
+		Soul::SetScene(testScene);
 	}
 
 	Soul::ShutdownEngine();
