@@ -14,7 +14,30 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 	m_Sprite.setOrigin(64, 32);
 	setScale(0.25f, 0.25f);
 	setPosition(x, y);
+
 	// TODO: set color based on affiliation
+	switch (affiliation)
+	{
+		case Red:
+		{
+			m_Sprite.setColor(sf::Color(255, 75, 75));
+		} break;
+
+		case Blue:
+		{
+			m_Sprite.setColor(sf::Color(50, 50, 200));
+		} break;
+
+		case Green:
+		{
+			m_Sprite.setColor(sf::Color(50, 200, 50));
+		} break;
+
+		case Yellow:
+		{
+			m_Sprite.setColor(sf::Color(255, 255, 0));
+		} break;
+	}
 }
 
 CogRider::CogRider(CogRider&& other) noexcept :
@@ -42,7 +65,10 @@ void CogRider::Update(f32 dt)
 	if (m_AttachedCog)
 	{
 		// Ride along cog circumference
-		m_AttachedAngle -= m_AttachedCog->GetRotSpeed() * (i32)m_AttachedCog->GetDirection() * dt;
+		if (m_Affiliation & Affiliation::Red)
+			m_AttachedAngle += m_AttachedCog->GetRotSpeed() * (i32)m_AttachedCog->GetDirection() * dt;
+		else
+			m_AttachedAngle -= m_AttachedCog->GetRotSpeed() * (i32)m_AttachedCog->GetDirection() * dt;
 		m_AttachedAngle = FLOAT_MOD(m_AttachedAngle, 360.0f);
 		if (m_AttachedAngle < -180.0f)
 			m_AttachedAngle += 360.0f;

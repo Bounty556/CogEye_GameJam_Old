@@ -5,7 +5,7 @@
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
 	m_FollowCog(m_Textures, Cog::Size::Medium, 50),
-	m_CogRider(m_Textures, 50, 100, CogRider::Green),
+	m_CogRider(m_Textures, 50, 100, CogRider::Red),
 	m_Cogs()
 {
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 150, 0.1f);
