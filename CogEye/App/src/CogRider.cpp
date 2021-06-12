@@ -42,6 +42,8 @@ void CogRider::Update(f32 dt)
 		// Ride along cog circumference
 		m_AttachedAngle -= m_AttachedCog->GetRotSpeed() * (i32)m_AttachedCog->GetDirection() * dt;
 		m_AttachedAngle = FLOAT_MOD(m_AttachedAngle, 360.0f);
+		if (m_AttachedAngle < -180.0f)
+			m_AttachedAngle += 360.0f;
 
 		sf::Vector2f direction = Soul::Math::AngleToVector(m_AttachedAngle);
 		setPosition(m_AttachedCog->getPosition() + direction * m_AttachedCog->GetRadius());
