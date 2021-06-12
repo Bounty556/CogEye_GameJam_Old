@@ -71,7 +71,7 @@ void CogRider::Update(f32 dt)
 		else
 			m_AttachedAngle -= m_AttachedCog->GetRotSpeed() * (i32)m_AttachedCog->GetDirection() * dt;
 		m_AttachedAngle = FLOAT_MOD(m_AttachedAngle, 360.0f);
-		if (m_AttachedAngle < -180.0f)
+		if (m_AttachedAngle < -180.0f) // The Sin and Cos functions are inaccurate at values at or above 2Pi
 			m_AttachedAngle += 360.0f;
 
 		sf::Vector2f direction = Soul::Math::AngleToVector(m_AttachedAngle);
