@@ -7,7 +7,7 @@
 
 int main()
 {
-	if (Soul::InitializeEngine(1280, 720, "Pong!"))
+	if (Soul::InitializeEngine(1280, 720, "Cog Eye"))
 	{
 		TestLevelScene* testScene = PARTITION(TestLevelScene);
 

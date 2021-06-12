@@ -16,7 +16,8 @@ public:
 	void Update(f32 dt);
 	void Draw(sf::RenderStates states) const;
 
-	Cog&& MakeCog();
+	void CheckCollisions(Soul::Vector<Cog*>& allCogs);
+	Cog* MakeCog();
 
 private:
 	Cog::Size m_Size;
@@ -24,4 +25,5 @@ private:
 	sf::Sprite m_Sprite;
 	f32 m_Radius;
 	Soul::TextureManager& m_Textures;
+	sf::Vector2f m_LastGoodPos;
 };

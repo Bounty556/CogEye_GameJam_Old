@@ -84,14 +84,23 @@ namespace Soul
 				return (i32)(number);
 		}
 
-		f32 Sqrt(f32 x)
+		/*
+		From https://www.codeproject.com/Articles/69941/Best-Square-Root-Method-Algorithm-Function-Precisi
+		*/
+		f32 Sqrt(const f32 x)
 		{
-			u32 i = *(u32*)&x;
-			// Adjust bias
-			i += 127 << 23;
-			// Approximation of square root
-			i >>= 1;
-			return *(f32*)&i;
+			union
+			{
+				i32 i;
+				f32 x;
+			} u;
+			u.x = x;
+			u.i = (1 << 29) + (u.i >> 1) - (1 << 22);
+
+			u.x = u.x + x / u.x;
+			u.x = 0.25f * u.x + x / u.x;
+
+			return u.x;
 		}
 
 		f32 Max(f32 a, f32 b)

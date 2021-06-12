@@ -11,9 +11,9 @@ class Cog : public sf::Transformable
 public:
 	enum Direction
 	{
-		Clockwise,
-		CounterClockwise,
-		None
+		CounterClockwise = -1,
+		None = 0,
+		Clockwise = 1
 	};
 
 	enum Size

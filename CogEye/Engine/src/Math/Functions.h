@@ -46,7 +46,7 @@ namespace Soul
 		Calculates fast square root of number.
 		From: https://www.codeproject.com/Articles/69941/Best-Square-Root-Method-Algorithm-Function-Precisi
 		*/
-		SOULAPI f32 Sqrt(f32 number);
+		SOULAPI f32 Sqrt(const f32 number);
 
 		/*
 		Returns the max of the two values.

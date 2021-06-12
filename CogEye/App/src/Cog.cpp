@@ -66,16 +66,12 @@ Cog& Cog::operator=(Cog&& other) noexcept
 
 void Cog::Update(f32 dt)
 {
-	if (m_Direction == Direction::Clockwise)
-		m_Sprite.rotate(m_RotSpeed * dt);
-	else if (m_Direction == Direction::CounterClockwise)
-		m_Sprite.rotate(-m_RotSpeed * dt);
+	m_Sprite.rotate(m_RotSpeed * (i32)m_Direction * dt);
 }
 
 void Cog::Draw(sf::RenderStates states) const
 {
 	states.transform *= getTransform();
-
 	Soul::Renderer::Render(m_Sprite, states);
 }
 
