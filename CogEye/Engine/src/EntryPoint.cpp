@@ -106,6 +106,7 @@ namespace Soul
 		
 		InputManager::Shutdown();
 		MessageBus::Shutdown();
+
 		MemoryManager::Shutdown();
 	}
 

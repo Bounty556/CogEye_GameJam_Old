@@ -7,19 +7,10 @@
 namespace Soul
 {
 	bool isInitialized = false;
-	f64 performanceFrequency; // Divide performance counter by this to get time
-	PlatformTime startTime; // Start time as microseconds
-	const f64 TO_FREQUENCY = 1000000.0; // Microseconds
 
 	bool PlatformInitialize()
 	{
 		isInitialized = true;
-
-		LARGE_INTEGER frequency;
-		QueryPerformanceFrequency(&frequency);
-		performanceFrequency = (f64)frequency.QuadPart / TO_FREQUENCY; // We want this in microseconds, not seconds
-
-		startTime = PlatformCurrentTime();
 
 		return true;
 	}
@@ -100,14 +91,6 @@ namespace Soul
 	void PlatformCloseFile(void* handle)
 	{
 		CloseHandle((HANDLE)handle);
-	}
-
-	PlatformTime PlatformCurrentTime()
-	{
-		LARGE_INTEGER performanceCount;
-		QueryPerformanceCounter(&performanceCount);
-
-		return (PlatformTime)(performanceCount.QuadPart / performanceFrequency);
 	}
 }
 
