@@ -53,12 +53,15 @@ public:
 
 	void AddHat(Soul::TextureManager& textures, Affiliation affiliation);
 
+	void MeltCog();
+	void MeltOldCog();
+
 	Affiliation GetAffiliation() const;
+	u32 GetValue() const;
 	
 private:
 	bool IsCollidingWithRider() const;
 	void SetCollidingWithRider();
-	void MeltOldCog();
 
 private:
 	sf::Sprite m_Sprite;
@@ -70,4 +73,5 @@ private:
 	Soul::Listener m_Listener;
 	Soul::Vector<RiderHat*> m_Hats;
 	bool m_IsCollidingWithRider;
+	u32 m_Value;
 };

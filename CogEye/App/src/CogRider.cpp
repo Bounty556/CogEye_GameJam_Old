@@ -16,7 +16,8 @@ CogRider::CogRider(Soul::TextureManager& textures, f32 x, f32 y, Affiliation aff
 	m_InBlock(nullptr),
 	m_Listener(),
 	m_Hats(),
-	m_IsCollidingWithRider(false)
+	m_IsCollidingWithRider(false),
+	m_Value(1)
 {
 	m_Sprite.setOrigin(64, 32);
 	setScale(0.25f, 0.25f);
@@ -66,7 +67,8 @@ CogRider::CogRider(CogRider&& other) noexcept :
 	m_InBlock(other.m_InBlock),
 	m_Listener(std::move(other.m_Listener)),
 	m_Hats(std::move(other.m_Hats)),
-	m_IsCollidingWithRider(other.m_IsCollidingWithRider)
+	m_IsCollidingWithRider(other.m_IsCollidingWithRider),
+	m_Value(other.m_Value)
 {
 }
 
@@ -87,6 +89,7 @@ CogRider& CogRider::operator=(CogRider&& other) noexcept
 	m_Listener = std::move(other.m_Listener);
 	m_Hats = std::move(other.m_Hats);
 	m_IsCollidingWithRider = other.m_IsCollidingWithRider;
+	m_Value = other.m_Value;
 
 	return *this;
 }
@@ -205,6 +208,7 @@ void CogRider::CheckCollisions(Soul::Vector<CogRider*>& allCogRiders)
 				Soul::MessageBus::QueueMessage("RiderCollision", pair);
 				m_IsCollidingWithRider = true;
 				pair->riderB->SetCollidingWithRider();
+				m_Value += pair->riderB->GetValue();
 			}
 		}
 	}
@@ -232,9 +236,33 @@ void CogRider::AddHat(Soul::TextureManager& textures, Affiliation affiliation)
 	}
 }
 
+void CogRider::MeltCog()
+{
+	if (m_Affiliation & Affiliation::Green && m_AttachedCog)
+	{
+		Soul::MessageBus::QueueMessage("MeltCog", (void*)m_AttachedCog); // Destroy cog
+		m_OldCog = nullptr;
+		m_AttachedCog = nullptr;
+	}
+}
+
+void CogRider::MeltOldCog()
+{
+	if (m_Affiliation & Affiliation::Green && m_OldCog)
+	{
+		Soul::MessageBus::QueueMessage("MeltCog", (void*)m_OldCog); // Destroy cog
+		m_OldCog = nullptr;
+	}
+}
+
 CogRider::Affiliation CogRider::GetAffiliation() const
 {
 	return m_Affiliation;
+}
+
+u32 CogRider::GetValue() const
+{
+	return m_Value;
 }
 
 bool CogRider::IsCollidingWithRider() const
@@ -245,13 +273,4 @@ bool CogRider::IsCollidingWithRider() const
 void CogRider::SetCollidingWithRider()
 {
 	m_IsCollidingWithRider = true;
-}
-
-void CogRider::MeltOldCog()
-{
-	if (m_Affiliation & Affiliation::Green && m_OldCog)
-	{
-		Soul::MessageBus::QueueMessage("MeltCog", (void*)m_OldCog); // Destroy cog
-		m_OldCog = nullptr;
-	}
 }

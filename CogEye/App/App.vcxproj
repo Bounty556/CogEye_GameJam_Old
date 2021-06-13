@@ -24,6 +24,7 @@
     <ClCompile Include="src\CogQueue.cpp" />
     <ClCompile Include="src\CogRider.cpp" />
     <ClCompile Include="src\FollowCog.cpp" />
+    <ClCompile Include="src\Goal.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\RiderHat.cpp" />
     <ClCompile Include="src\Scenes\MainMenuScene.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="src\CogQueue.h" />
     <ClInclude Include="src\CogRider.h" />
     <ClInclude Include="src\FollowCog.h" />
+    <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\RiderHat.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Scenes\TestLevelScene.h" />

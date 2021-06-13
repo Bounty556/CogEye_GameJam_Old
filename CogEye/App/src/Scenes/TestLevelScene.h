@@ -11,6 +11,7 @@
 #include "../CogRider.h"
 #include "../Block.h"
 #include "../CogQueue.h"
+#include "../Goal.h"
 
 class TestLevelScene : public Soul::Scene
 {
@@ -31,4 +32,5 @@ private:
 	Soul::Vector<Block*> m_Blocks;
 	Soul::Listener m_Listener;
 	CogQueue m_CogQueue;
+	Goal m_Goal;
 };

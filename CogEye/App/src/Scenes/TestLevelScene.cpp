@@ -11,7 +11,8 @@ TestLevelScene::TestLevelScene() :
 	m_Cogs(),
 	m_Blocks(),
 	m_Listener(),
-	m_CogQueue(m_Fonts, m_Textures, 5, 5, 5)
+	m_CogQueue(m_Fonts, m_Textures, 5, 5, 5),
+	m_Goal(3, m_Fonts, 1000, 300, 200, 150)
 {
 	CogRider* cogRider = PARTITION(CogRider, m_Textures, 50, 100, CogRider::Green);
 	CogRider* cogRider2 = PARTITION(CogRider, m_Textures, 50, -200, CogRider::Yellow);
@@ -58,6 +59,20 @@ TestLevelScene::TestLevelScene() :
 			Soul::MemoryManager::FreeMemory(pair->riderB);
 			Soul::MemoryManager::FreeMemory(pair);
 		});
+
+	m_Listener.Subscribe("GoalReached",
+		[&](void* data)
+		{
+			((CogRider*)data)->MeltCog();
+			m_CogRiders.Remove((CogRider*)data);
+			Soul::MemoryManager::FreeMemory((CogRider*)data);
+		});
+	
+	m_Listener.Subscribe("LevelComplete",
+		[&](void* data)
+		{
+			LOG_DEBUG("Level complete!");
+		});
 }
 
 TestLevelScene::~TestLevelScene()
@@ -88,8 +103,6 @@ void TestLevelScene::Update(f32 dt)
 	// E to change selected part
 	if (Soul::InputManager::GetControlState(-1, "ChangePart").state == Soul::Controller::Pressed)
 		m_FollowCog.NextSize();
-	// click, check for selected part and place if can
-
 	if (Soul::InputManager::GetControlState(-1, "Click").state == Soul::Controller::Pressed &&
 		m_CogQueue.CanPlace(m_FollowCog.GetSize()))
 	{
@@ -102,15 +115,22 @@ void TestLevelScene::Update(f32 dt)
 			Soul::MessageBus::QueueMessage("PlacedCog", size);
 		}
 	}
+
+	m_Goal.CheckCollisions(m_CogRiders);
 }
 
 void TestLevelScene::Draw(sf::RenderStates states) const
 {
 	for (u32 i = 0; i < m_Blocks.Count(); i++)
 		m_Blocks[i]->Draw(states);
+	
+	m_Goal.Draw(states);
+	
 	for (u32 i = 0; i < m_Cogs.Count(); i++)
 		m_Cogs[i]->Draw(states);
+	
 	m_FollowCog.Draw(states);
+	
 	for (u32 i = 0; i < m_CogRiders.Count(); i++)
 		m_CogRiders[i]->Draw(states);
 
