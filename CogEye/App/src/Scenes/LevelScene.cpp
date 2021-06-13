@@ -52,12 +52,6 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 			m_CogRiders.Remove((CogRider*)data);
 			Soul::MemoryManager::FreeMemory((CogRider*)data);
 		});
-
-	m_Listener.Subscribe("LevelComplete",
-		[&](void* data)
-		{
-			LOG_DEBUG("Level complete!");
-		});
 }
 
 LevelScene::~LevelScene()

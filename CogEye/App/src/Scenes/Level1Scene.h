@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Defines.h>
+#include <UI/UILabel.h>
 
 #include "LevelScene.h"
 
@@ -13,5 +14,5 @@ public:
 	virtual void Draw(sf::RenderStates states) const override;
 
 private:
-	// TODO: Add tutorial text
+	Soul::UILabel m_TutorialText;
 };
