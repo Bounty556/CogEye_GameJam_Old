@@ -63,7 +63,6 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 	m_Listener.Subscribe("NextLevel",
 		[&](void* data)
 		{
-			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
 			NextLevel();
 		});
 }

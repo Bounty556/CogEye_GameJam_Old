@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "Level1Scene.h"
+#include "Level2Scene.h"
 #include "CreditsScene.h"
 
 MainMenuScene::MainMenuScene() :
@@ -17,7 +18,7 @@ MainMenuScene::MainMenuScene() :
 		[]()
 		{
 			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
-			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level1Scene) });
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level2Scene) });
 		});
 	Soul::UIButton* levelsButton = PARTITION(Soul::UIButton, "Levels", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"), []() { /**/ });
 	Soul::UIButton* creditsButton = PARTITION(Soul::UIButton, "Credits", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"),
