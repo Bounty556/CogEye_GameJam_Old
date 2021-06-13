@@ -30,8 +30,7 @@ namespace Soul
 		{
 			Push,
 			Pop,
-			Clear,
-			Reset
+			Clear
 		};
 
 		struct SceneCommand
@@ -92,8 +91,14 @@ namespace Soul
 	template <class T, class ...Args>
 	void SceneManager::ResetScene(T* scene, void* data, Args&& ...args)
 	{
-		MemoryManager::FreeMemory(scene);
-		scene = PARTITION(T, std::forward<Args>(args)...);
-		((Scene*)scene)->ResetSceneData(data);
+		for (auto i = m_SceneStack->Begin(); i != m_SceneStack->End(); ++i)
+		{
+			if (i->Raw() == scene)
+			{
+				*i = PARTITION(T, std::forward<Args>(args)...);
+				i->Raw()->ResetSceneData(data);
+				break;
+			}
+		}
 	}
 }

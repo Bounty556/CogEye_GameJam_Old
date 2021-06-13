@@ -2,6 +2,7 @@
 
 #include <IO/InputManager.h>
 #include <Core/MessageBus.h>
+#include <Core/SceneManager.h>
 
 TestLevelScene::TestLevelScene() :
 	m_Textures(),
@@ -100,6 +101,8 @@ void TestLevelScene::Update(f32 dt)
 		m_CogRiders[i]->CheckCollisions(m_CogRiders);
 	}
 
+	m_Goal.CheckCollisions(m_CogRiders);
+
 	// E to change selected part
 	if (Soul::InputManager::GetControlState(-1, "ChangePart").state == Soul::Controller::Pressed)
 		m_FollowCog.NextSize();
@@ -115,8 +118,8 @@ void TestLevelScene::Update(f32 dt)
 			Soul::MessageBus::QueueMessage("PlacedCog", size);
 		}
 	}
-
-	m_Goal.CheckCollisions(m_CogRiders);
+	if (Soul::InputManager::GetControlState(-1, "Restart").state == Soul::Controller::Pressed)
+		Soul::SceneManager::ResetScene(this, nullptr);
 }
 
 void TestLevelScene::Draw(sf::RenderStates states) const
