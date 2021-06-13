@@ -3,7 +3,7 @@
 #include <Core/SceneManager.h>
 #include <Rendering/Renderer.h>
 
-#define END_TEXT "Thank you for playing Cog Eye!\nUnfortunately this is all I had time for during the Game Jam.\nAlthough it was short, I would be ever so grateful if you could rate this\ngame on Itch.io and let me know what you thought."
+#define END_TEXT "Thank you for playing Cog Eye!\nUnfortunately this is just a proof of concept, as it's all I had time for during the Game Jam.\nAlthough it was short, I would be ever so grateful if you could rate this\ngame on Itch.io and let me know what you think of it."
 
 LevelEndScene::LevelEndScene() :
 	LevelScene(99, 99, 99, 5, 10000, 10000, 200, 150),
