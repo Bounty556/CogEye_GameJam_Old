@@ -3,7 +3,7 @@
 #include <Core/SceneManager.h>
 #include <Rendering/Renderer.h>
 
-#include "LevelEndScene.h"
+#include "Level5Scene.h"
 
 #define TUTORIAL_TEXT4 "Watchout for the lava!"
 
@@ -33,7 +33,7 @@ Level4Scene::Level4Scene() :
 void Level4Scene::NextLevel()
 {
 	Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
-	Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(LevelEndScene) });
+	Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level5Scene) });
 }
 
 void Level4Scene::ResetScene()

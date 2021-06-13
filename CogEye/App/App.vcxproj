@@ -32,6 +32,7 @@
     <ClCompile Include="src\Scenes\Level2Scene.cpp" />
     <ClCompile Include="src\Scenes\Level3Scene.cpp" />
     <ClCompile Include="src\Scenes\Level4Scene.cpp" />
+    <ClCompile Include="src\Scenes\Level5Scene.cpp" />
     <ClCompile Include="src\Scenes\LevelEndScene.cpp" />
     <ClCompile Include="src\Scenes\LevelFinishScene.cpp" />
     <ClCompile Include="src\Scenes\LevelScene.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="src\Scenes\Level2Scene.h" />
     <ClInclude Include="src\Scenes\Level3Scene.h" />
     <ClInclude Include="src\Scenes\Level4Scene.h" />
+    <ClInclude Include="src\Scenes\Level5Scene.h" />
     <ClInclude Include="src\Scenes\LevelEndScene.h" />
     <ClInclude Include="src\Scenes\LevelFinishScene.h" />
     <ClInclude Include="src\Scenes\LevelScene.h" />
