@@ -13,6 +13,12 @@ class PauseScene : public Soul::Scene
 public:
 	PauseScene();
 
+	PauseScene(const PauseScene&) = delete;
+	PauseScene(PauseScene&& other) noexcept;
+
+	PauseScene& operator=(const PauseScene&) = delete;
+	PauseScene& operator=(PauseScene&& other) noexcept;
+
 	virtual void Update(f32 dt) override;
 	virtual void Draw(sf::RenderStates states) const override;
 

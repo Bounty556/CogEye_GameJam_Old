@@ -49,6 +49,21 @@ PauseScene::PauseScene() :
 	m_MenuBG.setFillColor(sf::Color(0, 0, 0, 125));
 }
 
+PauseScene::PauseScene(PauseScene&& other) noexcept :
+	m_MenuBG(std::move(other.m_MenuBG)),
+	m_Fonts(std::move(other.m_Fonts)),
+	m_UI(std::move(other.m_UI))
+{
+}
+
+PauseScene& PauseScene::operator=(PauseScene&& other) noexcept
+{
+	m_MenuBG = std::move(other.m_MenuBG);
+	m_Fonts = std::move(other.m_Fonts);
+	m_UI = std::move(other.m_UI);
+
+	return *this;
+}
 
 void PauseScene::Update(f32 dt)
 {
