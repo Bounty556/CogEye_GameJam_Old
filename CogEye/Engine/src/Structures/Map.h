@@ -122,7 +122,7 @@ namespace Soul
 	bool Map<K, V>::AddPair(const K& key, const V& value)
 	{
 		// Check to make sure adding this doesn't fill our capacity
-		if (m_Size + 1 >= (u32)(m_Capacity * .75f))
+		if (m_Size + 1 >= (u32)(m_Capacity * .5f))
 			Resize(Math::FindNextPrime(m_Capacity * 2));
 
 		i64 openLocation = FindOpenLocation(key);
@@ -145,7 +145,7 @@ namespace Soul
 	bool Map<K, V>::AddPair(K&& key, V&& value)
 	{
 		// Check to make sure adding this doesn't fill our capacity
-		if (m_Size + 1 >= (u32)(m_Capacity * .75f))
+		if (m_Size + 1 >= (u32)(m_Capacity * .5f))
 			Resize(Math::FindNextPrime(m_Capacity * 2));
 
 		i64 openLocation = FindOpenLocation(key);
@@ -168,7 +168,7 @@ namespace Soul
 	bool Map<K, V>::AddPair(const K& key, V&& value)
 	{
 		// Check to make sure adding this doesn't fill our capacity
-		if (m_Size + 1 >= (u32)(m_Capacity * .75f))
+		if (m_Size + 1 >= (u32)(m_Capacity * .5f))
 			Resize(Math::FindNextPrime(m_Capacity * 2));
 
 		i64 openLocation = FindOpenLocation(key);
@@ -191,7 +191,7 @@ namespace Soul
 	bool Map<K, V>::AddPair(K&& key, const V& value)
 	{
 		// Check to make sure adding this doesn't fill our capacity
-		if (m_Size + 1 >= (u32)(m_Capacity * .75f))
+		if (m_Size + 1 >= (u32)(m_Capacity * .5f))
 			Resize(Math::FindNextPrime(m_Capacity * 2));
 
 		i64 openLocation = FindOpenLocation(key);
