@@ -12,6 +12,7 @@
 #include <Rendering/Renderer.h>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 
 #define TARGET_FRAMERATE 6.94f // 144 FPS
 
@@ -62,6 +63,15 @@ namespace Soul
 	void SetScene(Scene* initialScene)
 	{
 		SceneManager::Initialize(initialScene);
+
+		sf::Music bgm;
+		if (!bgm.openFromFile("res/Sounds/ForestWalk.ogg"))
+			LOG_ERROR("Couldn't find BGM.");
+		else
+		{
+			bgm.setLoop(true);
+			bgm.play();
+		}
 
 		Timer gameTimer;
 		PlatformTime accumulatedTime = 0.0f;
