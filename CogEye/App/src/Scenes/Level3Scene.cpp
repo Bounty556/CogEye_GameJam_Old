@@ -3,7 +3,7 @@
 #include <Core/SceneManager.h>
 #include <Rendering/Renderer.h>
 
-#include "LevelEndScene.h"
+#include "Level4Scene.h"
 
 #define TUTORIAL_TEXT3 "If a Cog Rider touches a wood block,\nit will be knocked off."
 
@@ -30,7 +30,7 @@ Level3Scene::Level3Scene() :
 void Level3Scene::NextLevel()
 {
 	Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
-	Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(LevelEndScene) });
+	Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level4Scene) });
 }
 
 void Level3Scene::ResetScene()
