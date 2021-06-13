@@ -237,7 +237,7 @@ void CogRider::AddHat(Soul::TextureManager& textures, Affiliation affiliation)
 	u32 diffAffil = (m_Affiliation ^ affiliation) & ~m_Affiliation;
 	u32 affilMask = 1;
 	
-	while (diffAffil && affilMask < 16)
+	while (diffAffil && affilMask < 32)
 	{
 		u32 masked = diffAffil & affilMask;
 

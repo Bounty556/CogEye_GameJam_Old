@@ -17,11 +17,11 @@ class CogRider : public sf::Transformable
 public:
 	enum Affiliation
 	{
-		None = 0,
-		Red = 1,
-		Blue = 2,
-		Green = 4,
-		Yellow = 8
+		None = 1,
+		Red = 2,
+		Blue = 4,
+		Green = 8,
+		Yellow = 16
 	};
 
 	/*

@@ -1,0 +1,60 @@
+#include "LevelsScene.h"
+
+#include <UI/UIButton.h>
+#include <Core/SceneManager.h>
+
+#include "MainMenuScene.h"
+#include "Level1Scene.h"
+#include "Level2Scene.h"
+
+LevelsScene::LevelsScene() :
+	Scene(true, true),
+	m_UI(),
+	m_Fonts()
+{
+	Soul::UIButton* back = PARTITION(Soul::UIButton, "Back", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"),
+		[]()
+		{
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(MainMenuScene) });
+		});
+
+	Soul::UIButton* level1 = PARTITION(Soul::UIButton, "Level 1", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"),
+		[]()
+		{
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level1Scene) });
+		});
+
+	Soul::UIButton* level2 = PARTITION(Soul::UIButton, "Level 2", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"),
+		[]()
+		{
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level2Scene) });
+		});
+
+	level1->setPosition(35, 100);
+	level2->setPosition(35, 150);
+	back->setPosition(35, 660);
+
+	level1->AddConnection(Soul::UIComponent::Up, back);
+	level1->AddConnection(Soul::UIComponent::Down, level2);
+	level2->AddConnection(Soul::UIComponent::Up, level1);
+	level2->AddConnection(Soul::UIComponent::Down, back);
+	back->AddConnection(Soul::UIComponent::Up, level2);
+	back->AddConnection(Soul::UIComponent::Down, level1);
+
+	m_UI.AddUIComponent(level1);
+	m_UI.AddUIComponent(level2);
+	m_UI.AddUIComponent(back);
+}
+
+void LevelsScene::Update(f32 dt)
+{
+	m_UI.Update(dt);
+}
+
+void LevelsScene::Draw(sf::RenderStates states) const
+{
+	m_UI.Draw(states);
+}
