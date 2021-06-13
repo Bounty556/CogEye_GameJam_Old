@@ -30,11 +30,11 @@ namespace Soul
 	{
 		ASSERT(m_Initialized);
 
-		for (auto i = m_SceneStack->Begin(); i != m_SceneStack->End(); i++)
+		for (auto i = m_SceneStack->RBegin(); i != m_SceneStack->REnd(); i++)
 		{
 			(*i)->Update(dt);
 
-			if ((*i)->UpdatePass())
+			if (!(*i)->UpdatePass())
 				break;
 		}
 	}
@@ -48,7 +48,7 @@ namespace Soul
 		bool blocked = false;
 		for (; i != m_SceneStack->REnd(); i++)
 		{
-			if ((*i)->DrawPass())
+			if (!(*i)->DrawPass())
 			{
 				blocked = true;
 				break;

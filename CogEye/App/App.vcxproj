@@ -28,6 +28,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\RiderHat.cpp" />
     <ClCompile Include="src\Scenes\MainMenuScene.cpp" />
+    <ClCompile Include="src\Scenes\PauseScene.cpp" />
     <ClCompile Include="src\Scenes\TestLevelScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +40,7 @@
     <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\RiderHat.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
+    <ClInclude Include="src\Scenes\PauseScene.h" />
     <ClInclude Include="src\Scenes\TestLevelScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

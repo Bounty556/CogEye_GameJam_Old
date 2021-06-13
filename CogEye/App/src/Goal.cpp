@@ -19,7 +19,7 @@ Goal::Goal(u32 required, Soul::FontManager& fonts, f32 x, f32 y, f32 width, f32 
 
 	setPosition(x, y);
 
-	m_Label.setPosition(0, -25);
+	m_Label.setPosition(0, -35);
 }
 
 void Goal::Draw(sf::RenderStates states) const

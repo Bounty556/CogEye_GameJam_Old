@@ -4,7 +4,10 @@
 #include <Core/MessageBus.h>
 #include <Core/SceneManager.h>
 
+#include "PauseScene.h"
+
 TestLevelScene::TestLevelScene() :
+	Scene(true, true),
 	m_Textures(),
 	m_Fonts(),
 	m_FollowCog(m_Textures, Cog::Size::Medium),
@@ -19,12 +22,10 @@ TestLevelScene::TestLevelScene() :
 	CogRider* cogRider2 = PARTITION(CogRider, m_Textures, 50, -200, CogRider::Yellow);
 	CogRider* cogRider3 = PARTITION(CogRider, m_Textures, 50, -300, CogRider::Red);
 	CogRider* cogRider4 = PARTITION(CogRider, m_Textures, 50, 100, CogRider::Blue);
-	CogRider* cogRider5 = PARTITION(CogRider, m_Textures, 50, 100, CogRider::Blue);
 	m_CogRiders.Push(cogRider);
 	m_CogRiders.Push(cogRider2);
 	m_CogRiders.Push(cogRider3);
 	m_CogRiders.Push(cogRider4);
-	m_CogRiders.Push(cogRider5);
 
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 125, 0.1f);
 	Cog* cog2 = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 125, 0.1f);
@@ -120,6 +121,8 @@ void TestLevelScene::Update(f32 dt)
 	}
 	if (Soul::InputManager::GetControlState(-1, "Restart").state == Soul::Controller::Pressed)
 		Soul::SceneManager::ResetScene(this, nullptr);
+	if (Soul::InputManager::GetControlState(-1, "Pause").state == Soul::Controller::Pressed)
+		Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(PauseScene) });
 }
 
 void TestLevelScene::Draw(sf::RenderStates states) const

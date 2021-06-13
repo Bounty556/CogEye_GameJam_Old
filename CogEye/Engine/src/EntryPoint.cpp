@@ -30,7 +30,7 @@ namespace Soul
 			LOG_FATAL("Failed to initialize platform layer.");
 			return false;
 		}
-		if (!MemoryManager::Initialize(MEGABYTES(32)))
+		if (!MemoryManager::Initialize(MEGABYTES(4)))
 		{
 			LOG_FATAL("Failed to initialize memory.");
 			return false;
@@ -74,18 +74,17 @@ namespace Soul
 				if (accumulatedTime > 1000.0f)
 					accumulatedTime = 0.0f;
 
-				ProcessEvents(); // Input, window events, etc.
+				// Input
+				ProcessEvents();
 				InputManager::UpdateControllers();
 
+				// Updates
 				SceneManager::ConsumeCommands();
-
 				SceneManager::Update(TARGET_FRAMERATE);
 
 				// Rendering
 				window->clear();
-
 				SceneManager::Draw(sf::RenderStates::Default);
-
 				window->display();
 
 				MessageBus::PumpQueue();
@@ -121,12 +120,6 @@ namespace Soul
 				case sf::Event::Closed:
 				{
 					SceneManager::PushCommand({ SceneManager::Clear, nullptr });
-				} break;
-
-				case sf::Event::KeyPressed:
-				{
-					if (e.key.code == sf::Keyboard::Escape)
-						SceneManager::PushCommand({ SceneManager::Clear, nullptr });
 				} break;
 			}
 		}
