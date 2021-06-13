@@ -27,6 +27,7 @@
     <ClCompile Include="src\Goal.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\RiderHat.cpp" />
+    <ClCompile Include="src\Scenes\CreditsScene.cpp" />
     <ClCompile Include="src\Scenes\Level1Scene.cpp" />
     <ClCompile Include="src\Scenes\LevelFinishScene.cpp" />
     <ClCompile Include="src\Scenes\LevelScene.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="src\FollowCog.h" />
     <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\RiderHat.h" />
+    <ClInclude Include="src\Scenes\CreditsScene.h" />
     <ClInclude Include="src\Scenes\Level1Scene.h" />
     <ClInclude Include="src\Scenes\LevelFinishScene.h" />
     <ClInclude Include="src\Scenes\LevelScene.h" />
