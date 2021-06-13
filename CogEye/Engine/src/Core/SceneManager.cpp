@@ -3,14 +3,14 @@
 namespace Soul
 {
 	bool SceneManager::m_Initialized = false;
-	Stack<SceneManager::ScenePtr>* SceneManager::m_SceneStack;
+	Stack<Scene*>* SceneManager::m_SceneStack;
 	Queue<SceneManager::SceneCommand>* SceneManager::m_CommandQueue;
 
 	void SceneManager::Initialize(Scene* initialScene)
 	{
 		ASSERT(!m_Initialized);
 
-		m_SceneStack = PARTITION(Stack<SceneManager::ScenePtr>);
+		m_SceneStack = PARTITION(Stack<Scene*>);
 		m_CommandQueue = PARTITION(Queue<SceneManager::SceneCommand>);
 
 		m_Initialized = true;
@@ -21,6 +21,9 @@ namespace Soul
 	void SceneManager::Shutdown()
 	{
 		ASSERT(m_Initialized);
+
+		for (auto i = m_SceneStack->Begin(); i != m_SceneStack->End(); i++)
+			MemoryManager::FreeMemory(*i);
 
 		MemoryManager::FreeMemory(m_SceneStack);
 		MemoryManager::FreeMemory(m_CommandQueue);
@@ -63,9 +66,7 @@ namespace Soul
 		// From there, draw the scenes in reverse so the early ones get drawn
 		// over
 		for (; i != m_SceneStack->End(); i++)
-		{
 			(*i)->Draw(states);
-		}
 	}
 
 	void SceneManager::PushCommand(SceneCommand command)
@@ -113,7 +114,7 @@ namespace Soul
 
 	void SceneManager::PushScene(Scene* scene)
 	{
-		m_SceneStack->Push(ScenePtr(scene));
+		m_SceneStack->Push(scene);
 	}
 
 	void SceneManager::PopScene()
@@ -125,7 +126,8 @@ namespace Soul
 	{
 		while (!m_SceneStack->IsEmpty())
 		{
-			m_SceneStack->Pop();
+			Scene* s = m_SceneStack->Pop();
+			MemoryManager::FreeMemory(s);
 		}
 	}
 }

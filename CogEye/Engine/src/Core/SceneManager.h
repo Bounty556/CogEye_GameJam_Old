@@ -84,7 +84,7 @@ namespace Soul
 
 	private:
 		static bool m_Initialized;
-		static Stack<ScenePtr>* m_SceneStack;
+		static Stack<Scene*>* m_SceneStack;
 		static Queue<SceneCommand>* m_CommandQueue;
 	};
 
@@ -93,10 +93,10 @@ namespace Soul
 	{
 		for (auto i = m_SceneStack->Begin(); i != m_SceneStack->End(); ++i)
 		{
-			if (i->Raw() == scene)
+			if (*i == scene)
 			{
 				*i = PARTITION(T, std::forward<Args>(args)...);
-				i->Raw()->ResetSceneData(data);
+				(*i)->ResetSceneData(data);
 				break;
 			}
 		}
