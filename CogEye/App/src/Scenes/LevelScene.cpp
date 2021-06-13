@@ -6,6 +6,8 @@
 
 #include "PauseScene.h"
 
+#include <SFML/Window/Keyboard.hpp>
+
 LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX, f32 goalY, f32 goalWidth, f32 goalHeight) :
 	Scene(true, true),
 	m_Textures(),
@@ -70,6 +72,11 @@ LevelScene::~LevelScene()
 
 void LevelScene::Update(f32 dt)
 {
+	// Space to speed up
+	if (Soul::InputManager::GetControlState(-1, "SpeedUp").state == Soul::Controller::Pressed ||
+		Soul::InputManager::GetControlState(-1, "SpeedUp").state == Soul::Controller::Down)
+		dt *= 2;
+
 	for (u32 i = 0; i < m_Cogs.Count(); i++)
 		m_Cogs[i]->Update(dt);
 	m_FollowCog.Update(dt);

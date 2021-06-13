@@ -95,6 +95,7 @@ namespace Soul
 		{
 			if (*i == scene)
 			{
+				MemoryManager::FreeMemory(*i);
 				*i = PARTITION(T, std::forward<Args>(args)...);
 				(*i)->ResetSceneData(data);
 				break;
