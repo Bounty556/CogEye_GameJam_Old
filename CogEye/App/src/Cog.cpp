@@ -105,3 +105,8 @@ f32 Cog::GetRotSpeed() const
 {
 	return m_RotSpeed;
 }
+
+const Soul::Vector<Cog*>& Cog::GetConnections() const
+{
+	return m_Connections;
+}

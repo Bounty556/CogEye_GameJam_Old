@@ -131,6 +131,8 @@ void CogRider::Draw(sf::RenderStates states) const
 
 void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 {
+	bool canAttach = false;
+
 	for (u32 i = 0; i < allCogs.Count(); i++)
 	{
 		if (m_AttachedCog != allCogs[i] && m_OldCog != allCogs[i])
@@ -138,14 +140,30 @@ void CogRider::CheckCollisions(Soul::Vector<Cog*>& allCogs)
 			f32 distance = Soul::Math::Distance(getPosition(), allCogs[i]->getPosition());
 			if (distance <= allCogs[i]->GetRadius() + 16)
 			{
-				// Attach cog
-				m_OldCog = m_AttachedCog;
-				m_AttachedCog = allCogs[i];
-				m_AttachedAngle = Soul::Math::VectorToAngle(getPosition() - allCogs[i]->getPosition());
+				if (m_AttachedCog)
+				{
+					const Soul::Vector<Cog*>& connections = m_AttachedCog->GetConnections();
+					for (u32 j = 0; j < connections.Count(); j++)
+					{
+						if (connections[j] == allCogs[i])
+						{
+							canAttach = true;
+							break;
+						}
+					}
+				}
+				else
+					canAttach = true;
 
-				MeltOldCog();
+				if (canAttach)
+				{
+					m_OldCog = m_AttachedCog;
+					m_AttachedCog = allCogs[i];
+					m_AttachedAngle = Soul::Math::VectorToAngle(getPosition() - allCogs[i]->getPosition());
 
-				break;
+					MeltOldCog();
+					break;
+				}
 			}
 		}
 		else if (m_OldCog == allCogs[i])

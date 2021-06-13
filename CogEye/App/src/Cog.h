@@ -43,6 +43,7 @@ public:
 	Direction GetDirection() const;
 	f32 GetRadius() const;
 	f32 GetRotSpeed() const;
+	const Soul::Vector<Cog*>& GetConnections() const;
 
 private:
 	Direction m_Direction;
