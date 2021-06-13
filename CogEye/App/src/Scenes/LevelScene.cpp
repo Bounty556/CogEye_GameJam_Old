@@ -22,7 +22,8 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 	m_Goal(goalNeeded, m_Fonts, goalX, goalY, goalWidth, goalHeight),
 	m_Background(*m_Textures.RequestTexture("res/Sprites/Background.png")),
 	m_CogSound(*m_Sounds.RequestSound("res/Sounds/Cog.ogg")),
-	m_MeltSound(*m_Sounds.RequestSound("res/Sounds/Lava.flac"))
+	m_MeltSound(*m_Sounds.RequestSound("res/Sounds/Lava.flac")),
+	m_GoalReached(false)
 {
 	m_Listener.Subscribe("MeltCog",
 		[&](void* data)
@@ -58,12 +59,14 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 			Soul::MemoryManager::FreeMemory((CogRider*)data);
 
 			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(LevelFinishScene) });
+			m_GoalReached = true;
 		});
 
 	m_Listener.Subscribe("NextLevel",
 		[&](void* data)
 		{
-			NextLevel();
+			if (m_GoalReached)
+				NextLevel();
 		});
 }
 

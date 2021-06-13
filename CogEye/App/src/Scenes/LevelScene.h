@@ -43,4 +43,5 @@ protected:
 	sf::Sprite m_Background;
 	sf::Sound m_CogSound;
 	sf::Sound m_MeltSound;
+	bool m_GoalReached;
 };
