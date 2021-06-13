@@ -92,5 +92,8 @@
     <ClInclude Include="src\Scenes\Level1Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scenes\LevelFinishScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

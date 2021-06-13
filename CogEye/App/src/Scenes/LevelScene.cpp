@@ -3,22 +3,25 @@
 #include <IO/InputManager.h>
 #include <Core/MessageBus.h>
 #include <Core/SceneManager.h>
+#include <Rendering/Renderer.h>
 
 #include "PauseScene.h"
-
-#include <SFML/Window/Keyboard.hpp>
 
 LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX, f32 goalY, f32 goalWidth, f32 goalHeight) :
 	Scene(true, true),
 	m_Textures(),
 	m_Fonts(),
+	m_Sounds(),
 	m_FollowCog(m_Textures, Cog::Size::Small),
 	m_CogRiders(),
 	m_Cogs(),
 	m_Blocks(),
 	m_Listener(),
 	m_CogQueue(m_Fonts, m_Textures, small, med, large),
-	m_Goal(goalNeeded, m_Fonts, goalX, goalY, goalWidth, goalHeight)
+	m_Goal(goalNeeded, m_Fonts, goalX, goalY, goalWidth, goalHeight),
+	m_Background(*m_Textures.RequestTexture("res/Sprites/Background.png")),
+	m_CogSound(*m_Sounds.RequestSound("res/Sounds/Cog.ogg")),
+	m_MeltSound(*m_Sounds.RequestSound("res/Sounds/Lava.flac"))
 {
 	m_Listener.Subscribe("MeltCog",
 		[&](void* data)
@@ -32,6 +35,7 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 		{
 			m_CogRiders.Remove((CogRider*)data);
 			Soul::MemoryManager::FreeMemory((CogRider*)data);
+			m_MeltSound.play();
 		});
 
 	m_Listener.Subscribe("RiderCollision",
@@ -99,6 +103,7 @@ void LevelScene::Update(f32 dt)
 			Cog::Size* size = PARTITION(Cog::Size);
 			*size = m_FollowCog.GetSize();
 			Soul::MessageBus::QueueMessage("PlacedCog", size);
+			m_CogSound.play();
 		}
 	}
 	if (Soul::InputManager::GetControlState(-1, "Restart").state == Soul::Controller::Pressed)
@@ -109,6 +114,8 @@ void LevelScene::Update(f32 dt)
 
 void LevelScene::Draw(sf::RenderStates states) const
 {
+	Soul::Renderer::Render(m_Background, states);
+
 	for (u32 i = 0; i < m_Blocks.Count(); i++)
 		m_Blocks[i]->Draw(states);
 

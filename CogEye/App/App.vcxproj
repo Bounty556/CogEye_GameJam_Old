@@ -42,6 +42,7 @@
     <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\RiderHat.h" />
     <ClInclude Include="src\Scenes\Level1Scene.h" />
+    <ClInclude Include="src\Scenes\LevelFinishScene.h" />
     <ClInclude Include="src\Scenes\LevelScene.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Scenes\PauseScene.h" />

@@ -3,8 +3,12 @@
 #include <Defines.h>
 #include <Core/Scene.h>
 #include <Resources/TextureManager.h>
+#include <Resources/FontManager.h>
+#include <Resources/SoundManager.h>
 #include <Structures/Vector.h>
 #include <Core/Listener.h>
+
+#include <SFML/Audio.hpp>
 
 #include "../Cog.h"
 #include "../FollowCog.h"
@@ -27,6 +31,7 @@ public:
 protected:
 	Soul::TextureManager m_Textures;
 	Soul::FontManager m_Fonts;
+	Soul::SoundManager m_Sounds;
 	FollowCog m_FollowCog;
 	Soul::Vector<CogRider*> m_CogRiders;
 	Soul::Vector<Cog*> m_Cogs;
@@ -34,4 +39,7 @@ protected:
 	Soul::Listener m_Listener;
 	CogQueue m_CogQueue;
 	Goal m_Goal;
+	sf::Sprite m_Background;
+	sf::Sound m_CogSound;
+	sf::Sound m_MeltSound;
 };
