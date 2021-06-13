@@ -3,6 +3,8 @@
 #include <Core/SceneManager.h>
 #include <Rendering/Renderer.h>
 
+#include "Level3Scene.h"
+
 #define TUTORIAL_TEXT "You can't place a cog that connects\ntwo cogs rotating in opposite directions."
 
 Level2Scene::Level2Scene() :
@@ -14,9 +16,9 @@ Level2Scene::Level2Scene() :
 	CogRider* cogRider = PARTITION(CogRider, m_Textures, 250, 250, CogRider::None);
 	m_CogRiders.Push(cogRider);
 
-	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Medium, 75, 0.5f);
-	Cog* cog2 = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Medium, 75, 0.5f);
-	Cog* cog3 = PARTITION(Cog, m_Textures, Cog::Direction::CounterClockwise, Cog::Size::Medium, 75, 0.5f);
+	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Medium, 75, 0.2f);
+	Cog* cog2 = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Medium, 75, 0.2f);
+	Cog* cog3 = PARTITION(Cog, m_Textures, Cog::Direction::CounterClockwise, Cog::Size::Medium, 75, 0.2f);
 	cog->setPosition(250, 400);
 	cog2->setPosition(550, 400);
 	cog3->setPosition(750, 400);
@@ -27,7 +29,8 @@ Level2Scene::Level2Scene() :
 
 void Level2Scene::NextLevel()
 {
-	// TODO: Next level
+	Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+	Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level3Scene) });
 }
 
 void Level2Scene::ResetScene()

@@ -6,6 +6,7 @@
 #include "MainMenuScene.h"
 #include "Level1Scene.h"
 #include "Level2Scene.h"
+#include "Level3Scene.h"
 
 LevelsScene::LevelsScene() :
 	Scene(true, true),
@@ -33,19 +34,30 @@ LevelsScene::LevelsScene() :
 			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level2Scene) });
 		});
 
+	Soul::UIButton* level3 = PARTITION(Soul::UIButton, "Level 3", *m_Fonts.RequestFont("res/Fonts/m5x7.ttf"),
+		[]()
+		{
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(Level3Scene) });
+		});
+
 	level1->setPosition(35, 100);
 	level2->setPosition(35, 150);
+	level3->setPosition(35, 200);
 	back->setPosition(35, 660);
 
 	level1->AddConnection(Soul::UIComponent::Up, back);
 	level1->AddConnection(Soul::UIComponent::Down, level2);
 	level2->AddConnection(Soul::UIComponent::Up, level1);
-	level2->AddConnection(Soul::UIComponent::Down, back);
-	back->AddConnection(Soul::UIComponent::Up, level2);
+	level2->AddConnection(Soul::UIComponent::Down, level3);
+	level3->AddConnection(Soul::UIComponent::Up, level2);
+	level3->AddConnection(Soul::UIComponent::Down, back);
+	back->AddConnection(Soul::UIComponent::Up, level3);
 	back->AddConnection(Soul::UIComponent::Down, level1);
 
 	m_UI.AddUIComponent(level1);
 	m_UI.AddUIComponent(level2);
+	m_UI.AddUIComponent(level3);
 	m_UI.AddUIComponent(back);
 }
 
