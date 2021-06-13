@@ -28,6 +28,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\RiderHat.cpp" />
     <ClCompile Include="src\Scenes\Level1Scene.cpp" />
+    <ClCompile Include="src\Scenes\LevelFinishScene.cpp" />
     <ClCompile Include="src\Scenes\LevelScene.cpp" />
     <ClCompile Include="src\Scenes\MainMenuScene.cpp" />
     <ClCompile Include="src\Scenes\PauseScene.cpp" />

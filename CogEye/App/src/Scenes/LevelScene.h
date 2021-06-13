@@ -27,6 +27,7 @@ public:
 	virtual void Update(f32 dt) override;
 	virtual void Draw(sf::RenderStates states) const override;
 	virtual void ResetScene() = 0;
+	virtual void NextLevel() = 0;
 
 protected:
 	Soul::TextureManager m_Textures;

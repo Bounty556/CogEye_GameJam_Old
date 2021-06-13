@@ -29,3 +29,8 @@ void TestLevelScene::ResetScene()
 {
 	Soul::SceneManager::ResetScene(this, nullptr);
 }
+
+void TestLevelScene::NextLevel()
+{
+
+}

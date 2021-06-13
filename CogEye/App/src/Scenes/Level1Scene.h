@@ -12,6 +12,7 @@ public:
 
 	virtual void ResetScene() override;
 	virtual void Draw(sf::RenderStates states) const override;
+	virtual void NextLevel() override;
 
 private:
 	Soul::UILabel m_TutorialText;

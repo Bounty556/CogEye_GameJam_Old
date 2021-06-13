@@ -16,21 +16,20 @@ Level1Scene::Level1Scene() :
 	Cog* cog = PARTITION(Cog, m_Textures, Cog::Direction::Clockwise, Cog::Size::Large, 125, 0.1f);
 	cog->setPosition(250, 400);
 	m_Cogs.Push(cog);
+}
 
-	m_Listener.Subscribe("LevelComplete",
-		[&](void* data)
-		{
-			LOG_DEBUG("Level complete!");
-		});
+void Level1Scene::NextLevel()
+{
+	// TODO: Next level
+}
+
+void Level1Scene::ResetScene()
+{
+	Soul::SceneManager::ResetScene(this, nullptr);
 }
 
 void Level1Scene::Draw(sf::RenderStates states) const
 {
 	m_TutorialText.Draw(states);
 	LevelScene::Draw(states);
-}
-
-void Level1Scene::ResetScene()
-{
-	Soul::SceneManager::ResetScene(this, nullptr);
 }

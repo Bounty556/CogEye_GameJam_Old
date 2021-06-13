@@ -10,4 +10,5 @@ public:
 	TestLevelScene();
 
 	virtual void ResetScene() override;
+	virtual void NextLevel() override;
 };

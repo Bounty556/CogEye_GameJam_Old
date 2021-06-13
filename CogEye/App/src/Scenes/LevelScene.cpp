@@ -6,6 +6,7 @@
 #include <Rendering/Renderer.h>
 
 #include "PauseScene.h"
+#include "LevelFinishScene.h"
 
 LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX, f32 goalY, f32 goalWidth, f32 goalHeight) :
 	Scene(true, true),
@@ -55,6 +56,15 @@ LevelScene::LevelScene(u32 small, u32 med, u32 large, u32 goalNeeded, f32 goalX,
 			((CogRider*)data)->MeltCog();
 			m_CogRiders.Remove((CogRider*)data);
 			Soul::MemoryManager::FreeMemory((CogRider*)data);
+
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Push, PARTITION(LevelFinishScene) });
+		});
+
+	m_Listener.Subscribe("NextLevel",
+		[&](void* data)
+		{
+			Soul::SceneManager::PushCommand({ Soul::SceneManager::Clear, nullptr });
+			NextLevel();
 		});
 }
 
